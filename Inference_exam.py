@@ -1,6 +1,8 @@
 # Inference for ONNX model
 
 import cv2
+import tensorflow.compat.v1 as tf
+
 cuda = True
 w = "yolov7-tiny.onnx"
 img = cv2.imread('bus.jpg')
@@ -18,9 +20,9 @@ from collections import OrderedDict,namedtuple
 providers = ['AzureExecutionProvider', 'CPUExecutionProvider'] if cuda else ['CPUExecutionProvider']
 session = ort.InferenceSession(w, providers=providers)
 
-tf.compat.disable_v2_behavior()
-with tf.compat.Session() as sess:
-    x = tf.compat.placeholder(tf.float32, [2])
+tf.compat.v1.disable_v2_behavior()
+with tf.compat.v1.Session() as sess:
+    x = tf.compat.v1.placeholder(tf.float32, [2])
     x2 = tf.square(x)
     print(sess.run(x2, feed_dict={x: [2, 3]}))
     # [4. 9.]
@@ -108,7 +110,7 @@ for i,(batch_id,x0,y0,x1,y1,cls_id,score) in enumerate(outputs):
     cv2.rectangle(image,box[:2],box[2:],color,2)
     cv2.putText(image,name,(box[0], box[1] - 2),cv2.FONT_HERSHEY_SIMPLEX,0.75,[225, 255, 255],thickness=2)  
 
-print('[INFO] draw all detected boxes....!')
+print('[INFO] draw all detected boxes jeongin Hwang 2312958')
 
 img=Image.fromarray(ori_images[0])
 img.save('output.png')
